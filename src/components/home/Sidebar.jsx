@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { createStyles, Navbar, getStylesRef, rem } from '@mantine/core'
 import {
   IconBellRinging,
@@ -12,6 +11,7 @@ import {
   IconLogout
 } from '@tabler/icons-react'
 import { Link, useLocation } from 'react-router-dom'
+import CollapseLink from './CollapsLink'
 
 const useStyles = createStyles(theme => ({
   navbar: {
@@ -20,26 +20,6 @@ const useStyles = createStyles(theme => ({
       color: theme.primaryColor
     }).background,
     height: '100%'
-  },
-
-  version: {
-    backgroundColor: theme.fn.lighten(
-      theme.fn.variant({ variant: 'filled', color: theme.primaryColor })
-        .background,
-      0.1
-    ),
-    color: theme.white,
-    fontWeight: 700
-  },
-
-  header: {
-    paddingBottom: theme.spacing.md,
-    marginBottom: `calc(${theme.spacing.md} * 1.5)`,
-    borderBottom: `${rem(1)} solid ${theme.fn.lighten(
-      theme.fn.variant({ variant: 'filled', color: theme.primaryColor })
-        .background,
-      0.1
-    )}`
   },
 
   footer: {
@@ -77,26 +57,20 @@ const useStyles = createStyles(theme => ({
     color: theme.white,
     opacity: 0.75,
     marginRight: theme.spacing.sm
-  },
-
-  linkActive: {
-    '&, &:hover': {
-      backgroundColor: theme.fn.lighten(
-        theme.fn.variant({ variant: 'filled', color: theme.primaryColor })
-          .background,
-        0.25
-      ),
-      [`& .${getStylesRef('icon')}`]: {
-        opacity: 0.9
-      }
-    },
-    border: '0.2px solid white'
   }
 }))
 
-const data = [
+const navData = [
   { link: '/', label: 'Home', icon: IconBellRinging },
-  { link: '/recharge', label: 'Recharge', icon: IconReceipt2 },
+  {
+    link: '/recharge',
+    label: 'Recharge',
+    icon: IconReceipt2,
+    links: [
+      { label: 'Accepted', link: '/recharge/accepted' },
+      { label: 'Rejected', link: '/recharge/rejected' }
+    ]
+  },
   { link: '', label: 'Security', icon: IconFingerprint },
   { link: '', label: 'SSH Keys', icon: IconKey },
   { link: '', label: 'Databases', icon: IconDatabaseImport },
@@ -105,21 +79,9 @@ const data = [
 ]
 
 export default function Sidebar() {
-  const { classes, cx } = useStyles()
-  const { pathname } = useLocation()
+  const { classes } = useStyles()
 
-  const links = data.map(item => (
-    <Link
-      className={cx(classes.link, {
-        [classes.linkActive]: item.link === pathname
-      })}
-      to={item.link}
-      key={item.label}
-    >
-      <item.icon className={classes.linkIcon} stroke={1.5} />
-      <span>{item.label}</span>
-    </Link>
-  ))
+  const links = navData.map((item, idx) => <CollapseLink key={idx} {...item} />)
 
   return (
     <Navbar p='md' className={classes.navbar}>

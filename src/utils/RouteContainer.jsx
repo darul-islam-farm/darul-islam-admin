@@ -2,6 +2,8 @@ import Home from 'pages/Home'
 import Recharge from 'pages/Recharge'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useAppContext } from './context'
+import RechargeAccepted from 'pages/Recharge.Accepted'
+import RechargeRejected from 'pages/Recharge.Rejected'
 
 export default function RoutesContainer({ children }) {
   const { showHamberg } = useAppContext()
@@ -30,6 +32,22 @@ export default function RoutesContainer({ children }) {
               element={
                 // <PrivateRoute>
                 <Recharge />
+                // </PrivateRoute>
+              }
+            />
+            <Route
+              path='/recharge/accepted'
+              element={
+                // <PrivateRoute>
+                <RechargeAccepted />
+                // </PrivateRoute>
+              }
+            />
+            <Route
+              path='/recharge/rejected'
+              element={
+                // <PrivateRoute>
+                <RechargeRejected />
                 // </PrivateRoute>
               }
             />

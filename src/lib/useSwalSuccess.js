@@ -3,9 +3,9 @@ import Swal from 'sweetalert2'
 export default function useSwalSuccess(text) {
   return Swal.fire({
     icon: 'success',
-    title: 'Confirmed!',
+    title: 'Success!',
     text,
-    confirmButtonColor: '#228BE6',
+    confirmButtonColor: '##20C997',
     iconColor: '#20C997',
     confirmButtonText: 'done'
   })

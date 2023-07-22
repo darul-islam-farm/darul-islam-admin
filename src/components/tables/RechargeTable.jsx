@@ -13,16 +13,28 @@ import Swal from 'sweetalert2'
 import TableSkeleton from './TableSkeleton'
 import useSwalPrompt from 'lib/useSwalPrompt'
 import { useMemo, useState } from 'react'
+import requests from 'service/http'
+import useSwalSuccess from 'lib/useSwalSuccess'
 
-export default function RechargeTable({ data, loading = true }) {
+export default function RechargeTable({
+  data,
+  loading = true,
+  noAction,
+  mutate
+}) {
+  const [searchKey, setSearchKey] = useState('')
   const [page, setPage] = useState(1)
-  const itemsPerPage = 4
+  const itemsPerPage = 5
   const slicedData = useMemo(() => {
     const startIndex = (page - 1) * itemsPerPage
     const endIndex = startIndex + itemsPerPage
     return data?.slice(startIndex, endIndex)
   }, [data, page])
-  const handlePrompt = async () => {
+  const searchedData = useMemo(() => {
+    return slicedData?.filter(item => item.number.includes(searchKey))
+  }, [slicedData, searchKey])
+
+  const acceptRequest = async item => {
     const { value: amount } = await Swal.fire({
       title: 'Input amount',
       input: 'number',
@@ -35,27 +47,43 @@ export default function RechargeTable({ data, loading = true }) {
     })
 
     if (amount) {
-      // axios
-      //   .post('/amount', { amount })
-      //   .then(res => {
-      //     Swal.fire('Success on posting amount')
-      // })
-      // .catch(error => {
-      //   Swal.fire('Error occurred')
-      // })
-      setTimeout(() => {
-        Swal.fire(`Success on posting amount ${amount} taka`)
-      }, 2000)
+      requests
+        .post('/accept-recharge', { amount, user: item.user._id, id: item._id })
+        .then(res => {
+          if (res.message === 'ok') {
+            mutate()
+            Swal.fire(
+              `Success on posting amount ${amount} taka to user: ${item.user.name} | ${item.user.did}`
+            )
+          }
+        })
+        .catch(error => {
+          Swal.fire('Error occurred, try again', error.message)
+        })
     }
   }
+  const rejectRequest = item => {
+    requests
+      .post('/discard-recharge', { id: item._id, user: item.user._id })
+      .then(res => {
+        mutate()
+        if (res.message === 'ok') {
+          useSwalSuccess('Successfully rejected the recharge request')
+        }
+      })
+      .catch(error => {
+        Swal.fire('Error occurred, try again', error.message)
+      })
+  }
 
-  const handler = type => {
+  const handler = (type, item) => {
     if (type === 'accept') {
-      useSwalPrompt('The user will be recharged.', handlePrompt)
-    }
+      useSwalPrompt('The user will be recharged.', () => acceptRequest(item))
+    } else if (type === 'reject')
+      useSwalPrompt('The request will be Rejected!', () => rejectRequest(item))
   }
 
-  const rows = slicedData?.map(item => (
+  const rows = searchedData?.map(item => (
     <tr key={item._id}>
       <td>
         <Text fz='md' fw={500}>
@@ -80,47 +108,52 @@ export default function RechargeTable({ data, loading = true }) {
           {item.method}
         </Badge>
       </td>
+
       <td>
         <Text fz='sm' c='dimmed'>
           {item.number}
         </Text>
       </td>
+
       <td>
         <Anchor size='sm'>{item.trx}</Anchor>
       </td>
 
-      <td>
-        <Button.Group>
-          <Button
-            onClick={() => handler('accept')}
-            variant='subtle'
-            mr={15}
-            color='teal'
-            uppercase
-          >
-            <IconCheck size={35} strokeWidth={1.5} color={'#20C997'} />
-          </Button>
-          <Button
-            onClick={() => handler('reject')}
-            variant='subtle'
-            color='red'
-            uppercase
-          >
-            <IconX size={35} strokeWidth={1.5} color={'red'} />
-          </Button>
-        </Button.Group>
-      </td>
+      {!noAction && (
+        <td>
+          <Button.Group>
+            <Button
+              onClick={() => handler('accept', item)}
+              variant='subtle'
+              mr={15}
+              color='teal'
+              uppercase
+            >
+              <IconCheck size={35} strokeWidth={1.5} color={'#20C997'} />
+            </Button>
+            <Button
+              onClick={() => handler('reject', item)}
+              variant='subtle'
+              color='red'
+              uppercase
+            >
+              <IconX size={35} strokeWidth={1.5} color={'red'} />
+            </Button>
+          </Button.Group>
+        </td>
+      )}
     </tr>
   ))
 
   return (
     <ScrollArea>
       <TextInput
-        placeholder='Search by any field'
+        placeholder='Search by phone number'
         mb='md'
-        icon={<IconSearch size='0.9rem' stroke={1.5} />}
-        // value={search}
-        // onChange={handleSearchChange}
+        type='number'
+        icon={<IconSearch size='1.3rem' stroke={3} />}
+        value={searchKey}
+        onChange={e => setSearchKey(e.target.value)}
       />
       <Table sx={{ minWidth: 800 }} verticalSpacing='sm'>
         <thead>
@@ -129,7 +162,7 @@ export default function RechargeTable({ data, loading = true }) {
             <th>METHOD</th>
             <th>NUMBER</th>
             <th>TRX</th>
-            <th>ACTIONS</th>
+            {!noAction && <th>ACTIONS</th>}
             <th />
           </tr>
         </thead>

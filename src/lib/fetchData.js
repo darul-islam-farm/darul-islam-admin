@@ -11,7 +11,7 @@ export default function fetchData(uri) {
   })
 
   return {
-    data: data?.response,
+    data,
     loading: isLoading,
     error,
     mutate
