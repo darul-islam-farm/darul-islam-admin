@@ -87,10 +87,10 @@ export default function RechargeTable({
     <tr key={item._id}>
       <td>
         <Text fz='md' fw={500}>
-          {item.user.name}
+          {item.user ? item.user.name : 'deleted user'}
         </Text>
         <Text fz='xs' c='dimmed' tt='uppercase'>
-          {item.user.did}
+          {item.user ? item.user.did : 'deleted user'}
         </Text>
       </td>
 

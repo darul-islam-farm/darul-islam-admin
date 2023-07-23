@@ -61,7 +61,12 @@ const useStyles = createStyles(theme => ({
 }))
 
 const navData = [
-  { link: '/', label: 'Home', icon: IconBellRinging },
+  {
+    link: '/',
+    label: 'Users',
+    icon: IconBellRinging,
+    links: [{ label: 'Pending Users', link: '/pending-users' }]
+  },
   {
     link: '/recharge',
     label: 'Recharge',

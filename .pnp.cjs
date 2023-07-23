@@ -40,6 +40,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@testing-library/react", "virtual:970ea86afc66c14a5f97c42006ba912b95090558e2b0390b931ade85d1e35770b3de52ec0e87d005e336935ccfb738acf090f765608d2dc254a186f8ccf0a638#npm:13.4.0"],\
             ["@testing-library/user-event", "virtual:970ea86afc66c14a5f97c42006ba912b95090558e2b0390b931ade85d1e35770b3de52ec0e87d005e336935ccfb738acf090f765608d2dc254a186f8ccf0a638#npm:13.5.0"],\
             ["axios", "npm:1.4.0"],\
+            ["dayjs", "npm:1.11.9"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:970ea86afc66c14a5f97c42006ba912b95090558e2b0390b931ade85d1e35770b3de52ec0e87d005e336935ccfb738acf090f765608d2dc254a186f8ccf0a638#npm:18.2.0"],\
             ["react-router-dom", "virtual:970ea86afc66c14a5f97c42006ba912b95090558e2b0390b931ade85d1e35770b3de52ec0e87d005e336935ccfb738acf090f765608d2dc254a186f8ccf0a638#npm:6.10.0"],\
@@ -7980,6 +7981,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["dayjs", [\
+        ["npm:1.11.9", {\
+          "packageLocation": "./.yarn/cache/dayjs-npm-1.11.9-c47d327b7c-a4844d83dc.zip/node_modules/dayjs/",\
+          "packageDependencies": [\
+            ["dayjs", "npm:1.11.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["debug", [\
         ["npm:2.6.9", {\
           "packageLocation": "./.yarn/cache/debug-npm-2.6.9-7d4cb597dc-d2f51589ca.zip/node_modules/debug/",\
@@ -8270,6 +8280,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@testing-library/react", "virtual:970ea86afc66c14a5f97c42006ba912b95090558e2b0390b931ade85d1e35770b3de52ec0e87d005e336935ccfb738acf090f765608d2dc254a186f8ccf0a638#npm:13.4.0"],\
             ["@testing-library/user-event", "virtual:970ea86afc66c14a5f97c42006ba912b95090558e2b0390b931ade85d1e35770b3de52ec0e87d005e336935ccfb738acf090f765608d2dc254a186f8ccf0a638#npm:13.5.0"],\
             ["axios", "npm:1.4.0"],\
+            ["dayjs", "npm:1.11.9"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:970ea86afc66c14a5f97c42006ba912b95090558e2b0390b931ade85d1e35770b3de52ec0e87d005e336935ccfb738acf090f765608d2dc254a186f8ccf0a638#npm:18.2.0"],\
             ["react-router-dom", "virtual:970ea86afc66c14a5f97c42006ba912b95090558e2b0390b931ade85d1e35770b3de52ec0e87d005e336935ccfb738acf090f765608d2dc254a186f8ccf0a638#npm:6.10.0"],\

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useAppContext } from './context'
 import RechargeAccepted from 'pages/Recharge.Accepted'
 import RechargeRejected from 'pages/Recharge.Rejected'
+import PendingUsers from 'pages/PendingUsers'
 
 export default function RoutesContainer({ children }) {
   const { showHamberg } = useAppContext()
@@ -24,6 +25,14 @@ export default function RoutesContainer({ children }) {
               element={
                 // <PrivateRoute>
                 <Home />
+                // </PrivateRoute>
+              }
+            />
+            <Route
+              path='/pending-users'
+              element={
+                // <PrivateRoute>
+                <PendingUsers />
                 // </PrivateRoute>
               }
             />
