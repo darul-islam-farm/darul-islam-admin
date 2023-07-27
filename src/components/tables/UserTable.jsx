@@ -52,7 +52,7 @@ export default function UserTable({ data, loading = true, pending, mutate }) {
           address,
           gender,
           type,
-          identity
+          identity: Number(identity)
         })
         .then(res => {
           if (res.message === 'ok') {
